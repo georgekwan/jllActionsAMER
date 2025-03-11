@@ -2,21 +2,31 @@ name: GitHub Actions Demo
 
 on:
   push:
-    branches: [main]
-    paths-ignore: [ .github/* ]
+    branches: 
+      - main
+    paths-ignore: 
+      - .github/*
   pull_request:
-    branches: [main]
+    branches: 
+      - main
   schedule:
-    - cron: '15 6 * * SUN' # Every Sunday
-  workflow_dispatch: # Manually trigger
+    - cron: '15 6 * * SUN' # Every Sunday at 6:15 AM UTC
+  workflow_dispatch: # Manually trigger the workflow
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "The job was triggered by event: ${{ github.event_name }}"
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - uses: actions/checkout@v3.3.0
+      - name: Display event information
+        run: echo "The job was triggered by event: ${{ github.event_name }}"
+
+      - name: Show branch and repository info
+        run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Checkout code
+        uses: actions/checkout@v3.3.0
+
       - name: List files in the repository
         run: |
           echo "The repository ${{ github.repository }} contains the following files:"
